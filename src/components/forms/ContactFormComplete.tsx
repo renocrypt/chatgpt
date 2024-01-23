@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 // Import the functions you need from the SDKs you need
@@ -5,8 +6,6 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDatabase, ref, set } from "firebase/database";
 
-import TopBar from "../../layout/Header/TopBar";
-import TWFooterBottomLine from "../../layout/Footer/TWFooterBottomLine";
 // TODO: Add SDKs htmlFor Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -28,10 +27,14 @@ const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 
 const ContactFormComplete = () => {
-  function writeUserData(name, email, message) {
+  function writeUserData(
+    name: string | undefined,
+    email: string | undefined,
+    message: string | undefined
+  ) {
     const db = getDatabase(app);
     const d = new Date();
-    let time = d.getTime();
+    const time = d.getTime();
     set(ref(db, "contactform/" + time), {
       name: name,
       email: email,
@@ -39,31 +42,34 @@ const ContactFormComplete = () => {
     });
   }
 
-  function submitForm(e) {
+  function submitForm(e: any) {
     e.preventDefault();
 
-    let name = document.querySelector("#name").value;
-    let email = document.querySelector("#email").value;
-    let message = document.querySelector("#message").value;
+    const name = (document.getElementById("name") as HTMLInputElement | null)
+      ?.value;
+    const email = (document.getElementById("email") as HTMLInputElement | null)
+      ?.value;
+    const message = (
+      document.getElementById("message") as HTMLInputElement | null
+    )?.value;
     writeUserData(name, email, message);
     // Clear form
     // document.getElementById("contactForm").reset();
   }
   return (
     <>
-      <TopBar />
       <section className="text-gray-700 body-font relative">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-col text-center w-full mb-12">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+            <h1 className="text-4xl lg:text-5xl font-medium font-TradegptSerif mb-4 text-gray-900">
               Contact Us
             </h1>
-            <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
+            <p className="lg:w-2/3 mx-auto leading-relaxed font-TradegptSans">
               Get in touch with TradeGPT
             </p>
           </div>
           <form id="contactForm" onSubmit={submitForm}>
-            <div className="lg:w-1/2 md:w-2/3 mx-auto">
+            <div className="lg:w-1/2 md:w-2/3 mx-auto font-TradegptSans">
               <div className="flex flex-wrap -m-2">
                 <div className="p-2 w-1/2">
                   <div className="relative">
@@ -125,7 +131,6 @@ const ContactFormComplete = () => {
           </form>
         </div>
       </section>
-      <TWFooterBottomLine />
     </>
   );
 };
