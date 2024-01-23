@@ -16,6 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <link rel="icon" href="/favicon.ico" sizes="any" />
       <body className="bg-green-100 font-Rsans" data-theme="light">
         <NavBar />
         {children}
